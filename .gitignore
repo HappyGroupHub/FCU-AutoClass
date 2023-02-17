@@ -5,3 +5,5 @@ config.yml
 .idea
 __pycache__
 venv
+
+captcha.png

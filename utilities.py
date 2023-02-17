@@ -2,6 +2,7 @@
 import sys
 from os.path import exists
 
+import ddddocr
 import yaml
 from yaml import SafeLoader
 
@@ -48,3 +49,15 @@ def read_config():
             "An error occurred while reading config.yml, please check if the file is corrected filled.\n"
             "If the problem can't be solved, consider delete config.yml and restart the program.\n")
         sys.exit()
+
+
+def get_ocr_answer(ocr_image_path):
+    """Get the answer of ocr.
+
+    :rtype: str
+    """
+    ocr = ddddocr.DdddOcr()
+    with open(ocr_image_path, 'rb') as f:
+        image = f.read()
+    answer = ocr.classification(image)
+    return answer
