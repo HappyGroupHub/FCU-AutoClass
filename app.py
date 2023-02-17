@@ -2,6 +2,7 @@
 import time
 
 from selenium import webdriver
+from selenium.common import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
@@ -32,6 +33,11 @@ def login():
     driver_screenshot((By.ID, "ctl00_Login1_Image1"), "captcha.png")
     driver_send_keys((By.ID, "ctl00_Login1_vcode"), utils.get_ocr_answer("captcha.png"))
     driver_click((By.ID, "ctl00_Login1_LoginButton"))
+    try:
+        WebDriverWait(driver, 1).until(ec.presence_of_element_located((By.ID, "ctl00_btnLogout")))
+    except TimeoutException:
+        print("Login Failed, relog now.")
+        login()
 
 
 login()
