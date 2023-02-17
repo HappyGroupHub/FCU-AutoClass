@@ -1,0 +1,7 @@
+# Config File
+config.yml
+
+# IDE Files and Environment
+.idea
+__pycache__
+venv
