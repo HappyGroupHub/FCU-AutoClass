@@ -1,5 +1,4 @@
 """This python file will do the AutoClass job."""
-import time
 
 from selenium import webdriver
 from selenium.common import TimeoutException
@@ -38,7 +37,23 @@ def login():
     except TimeoutException:
         print("Login Failed, relog now.")
         login()
+    auto_class(config.get("class_ids"))
 
 
-login()
-time.sleep(100)
+def auto_class(class_ids):
+    driver_click((By.ID, "ctl00_MainContent_TabContainer1_tabSelected_Label3"))
+    for class_id in class_ids:
+        driver_send_keys((By.ID, "ctl00_MainContent_TabContainer1_tabSelected_tbSubID"), class_id)
+        try:
+            WebDriverWait(driver, 0.5).until(ec.presence_of_element_located((By.ID,
+                                                                             "//*[@id='ctl00_MainContent_TabContainer1_tabSelected_gvToDel']/tbody/tr[2]/td[1]/input")))
+            class_ids.remove(class_id)
+        except TimeoutException:
+            driver_click((By.XPATH,
+                          "//*[@id='ctl00_MainContent_TabContainer1_tabSelected_gvToAdd']/tbody/tr[2]/td[1]/input"))
+    auto_class(class_ids)
+
+
+if __name__ == "__main__":
+    login()
+    driver.quit()

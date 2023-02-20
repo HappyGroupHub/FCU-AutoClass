@@ -18,6 +18,12 @@ def config_file_generator():
 # FCU Account
 username: ''
 password: ''
+
+# Class to join
+# If you have more than one class to join, please separate them with space.
+# Example: class_id: '0050 0051'
+# The less class_id you have, the more rate you can get the class you want.
+class_id: ''
 """
                 )
     sys.exit()
@@ -39,9 +45,11 @@ def read_config():
     try:
         with open('config.yml', 'r', encoding="utf8") as f:
             data = yaml.load(f, Loader=SafeLoader)
+            class_ids = get_class_ids(data['class_id'])
             config = {
                 'username': data['username'],
-                'password': data['password']
+                'password': data['password'],
+                'class_ids': class_ids
             }
             return config
     except (KeyError, TypeError):
@@ -49,6 +57,15 @@ def read_config():
             "An error occurred while reading config.yml, please check if the file is corrected filled.\n"
             "If the problem can't be solved, consider delete config.yml and restart the program.\n")
         sys.exit()
+
+
+def get_class_ids(class_id):
+    """Read class_id from config file.
+
+    :rtype: list
+    """
+    class_ids = class_id.split(" ")
+    return class_ids
 
 
 def get_ocr_answer(ocr_image_path):
