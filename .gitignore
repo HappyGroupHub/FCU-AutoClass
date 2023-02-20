@@ -6,4 +6,9 @@ config.yml
 __pycache__
 venv
 
+# PyInstaller
+*.spec
+build
+dist
+
 captcha.png
