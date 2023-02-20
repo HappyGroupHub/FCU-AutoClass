@@ -15,22 +15,42 @@ driver = webdriver.Chrome()
 
 
 def driver_send_keys(locator, key):
+    """Send keys to element.
+
+    :param locator: Locator of element.
+    :param key: Keys to send.
+    """
     WebDriverWait(driver, 10).until(ec.presence_of_element_located(locator)).send_keys(key)
 
 
 def driver_click(locator):
+    """Click element.
+
+    :param locator: Locator of element.
+    """
     WebDriverWait(driver, 10).until(ec.presence_of_element_located(locator)).click()
 
 
 def driver_screenshot(locator, path):
+    """Take screenshot of element.
+
+    :param locator: Locator of element.
+    :param path: Path to save screenshot.
+    """
     WebDriverWait(driver, 10).until(ec.presence_of_element_located(locator)).screenshot(path)
 
 
 def driver_get_text(locator):
+    """Get text of element.
+
+    :param locator: Locator of element.
+    :return: Text of element.
+    """
     return WebDriverWait(driver, 10).until(ec.presence_of_element_located(locator)).text
 
 
 def login():
+    """Login to FCU course system."""
     driver.get('https://course.fcu.edu.tw/')
     driver_send_keys((By.ID, "ctl00_Login1_UserName"), config.get("username"))
     driver_send_keys((By.ID, "ctl00_Login1_Password"), config.get("password"))
@@ -46,6 +66,10 @@ def login():
 
 
 def auto_class(class_ids):
+    """Auto join class script.
+
+    :param class_ids: List of class ids to join.
+    """
     driver_click((By.ID, "ctl00_MainContent_TabContainer1_tabSelected_Label3"))
     for class_id in class_ids:
         driver_send_keys((By.ID, "ctl00_MainContent_TabContainer1_tabSelected_tbSubID"), class_id)
@@ -61,7 +85,8 @@ def auto_class(class_ids):
         if not remain_pos == '0':
             driver_click((By.XPATH,
                           "//*[@id='ctl00_MainContent_TabContainer1_tabSelected_gvToAdd']/tbody/tr[2]/td[1]/input"))
-            if driver_get_text((By.XPATH, "//*[@id='ctl00_MainContent_TabContainer1_tabSelected_lblMsgBlock']/span")) == "加選成功":
+            if driver_get_text((By.XPATH,
+                                "//*[@id='ctl00_MainContent_TabContainer1_tabSelected_lblMsgBlock']/span")) == "加選成功":
                 print("成功加選課程：" + class_id)
                 class_ids.remove(class_id)
         else:
