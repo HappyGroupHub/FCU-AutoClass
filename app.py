@@ -11,7 +11,10 @@ import utilities as utils
 
 config = utils.read_config()
 
-driver = webdriver.Chrome()
+options = webdriver.ChromeOptions()
+if config.get("headless"):
+    options.add_argument('--headless')
+driver = webdriver.Chrome(options=options)
 
 
 def driver_send_keys(locator, key):
@@ -62,6 +65,8 @@ def login():
     except TimeoutException:
         print("Login Failed, relog now.")
         login()
+    print('-------------------------------------')
+    print("Login Success. Start auto classing...")
     auto_class(config.get("class_ids"))
 
 
@@ -80,6 +85,7 @@ def auto_class(class_ids):
         time.sleep(0.5)
         alert = driver.switch_to.alert
         remain_pos = alert.text.strip('剩餘名額/開放名額：').split("/")[0]
+        print("課程" + class_id + ": " + alert.text)
         alert.accept()
 
         if not remain_pos == '0':

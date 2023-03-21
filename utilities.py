@@ -24,6 +24,10 @@ password: ''
 # Example: class_id: '0050 0051'
 # The less class_id you have, the more rate you can get the class you want.
 class_id: ''
+
+# Headless mode
+# If you want to run this script in headless mode, please set this to true.
+headless: false
 """
                 )
     sys.exit()
@@ -49,7 +53,8 @@ def read_config():
             config = {
                 'username': data['username'],
                 'password': data['password'],
-                'class_ids': class_ids
+                'class_ids': class_ids,
+                'headless': data['headless']
             }
             return config
     except (KeyError, TypeError):
