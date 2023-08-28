@@ -15,6 +15,7 @@ options = webdriver.ChromeOptions()
 if config.get("headless"):
     options.add_argument('--headless')
 driver = webdriver.Chrome(options=options)
+driver.maximize_window()
 
 
 def driver_send_keys(locator, key):
