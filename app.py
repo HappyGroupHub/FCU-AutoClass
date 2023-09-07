@@ -3,6 +3,7 @@ import time
 
 from selenium import webdriver
 from selenium.common import TimeoutException
+from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
@@ -56,6 +57,7 @@ def driver_get_text(locator):
 def login():
     """Login to FCU course system."""
     driver.get('https://course.fcu.edu.tw/')
+    driver_send_keys((By.XPATH, '//*[@id="ctl00_Login1_RadioButtonList1_0"]'), Keys.SPACE)
     driver_send_keys((By.ID, "ctl00_Login1_UserName"), config.get("username"))
     driver_send_keys((By.ID, "ctl00_Login1_Password"), config.get("password"))
     driver_screenshot((By.ID, "ctl00_Login1_Image1"), "captcha.png")
@@ -85,17 +87,20 @@ def auto_class(class_ids):
                       "//*[@id='ctl00_MainContent_TabContainer1_tabSelected_gvToAdd']/tbody/tr[2]/td[8]/input"))
         time.sleep(0.5)
         alert = driver.switch_to.alert
-        remain_pos = alert.text.strip('剩餘名額/開放名額：').split("/")[0]
+        remain_pos = int(alert.text.strip('剩餘名額/開放名額：').split(" /")[0])
         print("課程" + class_id + ": " + alert.text)
         alert.accept()
 
-        if not remain_pos == '0':
+        if not remain_pos == 0:
             driver_click((By.XPATH,
                           "//*[@id='ctl00_MainContent_TabContainer1_tabSelected_gvToAdd']/tbody/tr[2]/td[1]/input"))
             if driver_get_text((By.XPATH,
                                 "//*[@id='ctl00_MainContent_TabContainer1_tabSelected_lblMsgBlock']/span")) == "加選成功":
                 print("成功加選課程：" + class_id)
                 class_ids.remove(class_id)
+            else:
+                print("課程" + class_id + ": 加選失敗, 請確認是否已加選或衝堂/超修, 也可能被其他機器人搶走了..")
+                pass
         else:
             pass
     auto_class(class_ids)
