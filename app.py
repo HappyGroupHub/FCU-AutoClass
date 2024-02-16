@@ -1,4 +1,5 @@
 """This python file will do the AutoClass job."""
+import sys
 import time
 
 from selenium import webdriver
@@ -78,6 +79,8 @@ def auto_class(class_ids):
 
     :param class_ids: List of class ids to join.
     """
+    if not class_ids:
+        return
     driver_click((By.ID, "ctl00_MainContent_TabContainer1_tabSelected_Label3"))
     for class_id in class_ids:
         driver_send_keys((By.ID, "ctl00_MainContent_TabContainer1_tabSelected_tbSubID"), class_id)
@@ -109,3 +112,4 @@ def auto_class(class_ids):
 if __name__ == "__main__":
     login()
     driver.quit()
+    sys.exit("All classes joined.")
