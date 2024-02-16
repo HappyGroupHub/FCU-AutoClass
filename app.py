@@ -79,34 +79,33 @@ def auto_class(class_ids):
 
     :param class_ids: List of class ids to join.
     """
-    if not class_ids:
-        return
-    driver_click((By.ID, "ctl00_MainContent_TabContainer1_tabSelected_Label3"))
-    for class_id in class_ids:
-        driver_send_keys((By.ID, "ctl00_MainContent_TabContainer1_tabSelected_tbSubID"), class_id)
+    while class_ids:
+        driver_click((By.ID, "ctl00_MainContent_TabContainer1_tabSelected_Label3"))
+        for class_id in class_ids[:]:  # create a copy of class_ids for iteration
+            driver_send_keys((By.ID, "ctl00_MainContent_TabContainer1_tabSelected_tbSubID"),
+                             class_id)
 
-        # query remain position
-        driver_click((By.XPATH,
-                      "//*[@id='ctl00_MainContent_TabContainer1_tabSelected_gvToAdd']/tbody/tr[2]/td[8]/input"))
-        time.sleep(0.5)
-        alert = driver.switch_to.alert
-        remain_pos = int(alert.text.strip('剩餘名額/開放名額：').split(" /")[0])
-        print("課程" + class_id + ": " + alert.text)
-        alert.accept()
-
-        if not remain_pos == 0:
+            # query remain position
             driver_click((By.XPATH,
-                          "//*[@id='ctl00_MainContent_TabContainer1_tabSelected_gvToAdd']/tbody/tr[2]/td[1]/input"))
-            if driver_get_text((By.XPATH,
-                                "//*[@id='ctl00_MainContent_TabContainer1_tabSelected_lblMsgBlock']/span")) == "加選成功":
-                print("成功加選課程：" + class_id)
-                class_ids.remove(class_id)
+                          "//*[@id='ctl00_MainContent_TabContainer1_tabSelected_gvToAdd']/tbody/tr[2]/td[8]/input"))
+            time.sleep(0.5)
+            alert = driver.switch_to.alert
+            remain_pos = int(alert.text.strip('剩餘名額/開放名額：').split(" /")[0])
+            print("課程" + class_id + ": " + alert.text)
+            alert.accept()
+
+            if not remain_pos == 0:
+                driver_click((By.XPATH,
+                              "//*[@id='ctl00_MainContent_TabContainer1_tabSelected_gvToAdd']/tbody/tr[2]/td[1]/input"))
+                if driver_get_text((By.XPATH,
+                                    "//*[@id='ctl00_MainContent_TabContainer1_tabSelected_lblMsgBlock']/span")) == "加選成功":
+                    print("成功加選課程：" + class_id)
+                    class_ids.remove(class_id)
+                else:
+                    print(
+                        "課程" + class_id + ": 加選失敗, 請確認是否已加選或衝堂/超修, 也可能被其他機器人搶走了..")
             else:
-                print("課程" + class_id + ": 加選失敗, 請確認是否已加選或衝堂/超修, 也可能被其他機器人搶走了..")
                 pass
-        else:
-            pass
-    auto_class(class_ids)
 
 
 if __name__ == "__main__":
