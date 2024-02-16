@@ -1,6 +1,8 @@
 """This python file will do the AutoClass job."""
+import os
 import sys
 import time
+from os.path import exists
 
 from selenium import webdriver
 from selenium.common import TimeoutException
@@ -109,6 +111,8 @@ def auto_class(class_ids):
 
 
 if __name__ == "__main__":
+    if not exists('./logs'):
+        os.makedirs('./logs')
     login()
     driver.quit()
     sys.exit("All classes joined.")
