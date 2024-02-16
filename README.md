@@ -9,7 +9,7 @@
 1. 從 [這裡](https://github.com/HappyGroupHub/FCU-AutoClass/releases) 下載最新的版本的程式
 2. 解壓縮檔案後會生成一個資料夾
 3. 打開 `config.yml` 並完成填寫裡面的資料 (詳細說明請看下面介紹)
-4. 開啟 `FCU-AutoClass.exe` 後就完成了!
+4. 開啟 `run.bat` 後就完成了!
 
 ## 關於 config.yml
 
