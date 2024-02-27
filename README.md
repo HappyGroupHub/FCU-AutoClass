@@ -1,8 +1,25 @@
-# FCU-AutoClass 逢甲大學自動搶課系統
+<div align="center">
+  <h1 id="逢甲大學自動搶課機器人">
+    <a href="https://github.com/HappyGroupHub/FCU-AutoClass" target="_blank">逢甲大學 - 自動搶課機器人</a>
+  </h1>
+
+[![Total Downloads](https://img.shields.io/github/downloads/HappyGroupHub/FCU-AutoClass/total?style=for-the-badge
+)](https://github.com/HappyGroupHub/FCU-AutoClass/releases)
+[![Current Version](https://img.shields.io/github/v/release/HappyGroupHub/FCU-AutoClass?style=for-the-badge
+)](https://github.com/HappyGroupHub/FCU-AutoClass/releases)
+[![LICENSE](https://img.shields.io/github/license/HappyGroupHub/FCU-AutoClass?style=for-the-badge
+)](https://github.com/HappyGroupHub/FCU-AutoClass/blob/master/LICENSE)
+
+</div>
+
 
 ## 介紹
 
 這個程式可以協助你在逢甲大學的選課系統中，無時無刻追蹤你想要的課程，當有任何人退選時，自動幫你搶課加選。
+
+![image](./readme_imgs/demo01.gif)
+
+支援: 多課程加選、無視窗加選、出錯自動重啟
 
 ## 使用方法
 
@@ -43,6 +60,8 @@ headless: false
 
 如果你在使用上面有遇到任何問題或bug，甚至是有建議想提出，請到 [這裡](https://github.com/HappyGroupHub/FCU-AutoClass/issues)
 提出你的想法!
+
+程式遇到 Bug 要提交問題的時候，歡迎附上資料夾內 `FCU-AutoCLass > logs > xxx.txt` 最新的紀錄檔，方便我做除錯。
 
 ## 版權
 
